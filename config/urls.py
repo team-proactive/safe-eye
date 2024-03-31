@@ -8,9 +8,9 @@ from .schema import schema
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Notice API",
+        title="API",
         default_version="v1",
-        description="Notice API description",
+        description="API description",
     ),
     public=True,
 )
@@ -22,7 +22,17 @@ def redirect_to_swagger(request):
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include("notice.urls")),
+    path(
+        "api/",
+        include(
+            [
+                path("notice/", include("notice.urls")),
+                # 추가적인 앱의 URL 패턴을 여기에 포함시킵니다.
+                # 예: path("blog/", include("blog.urls")),
+                #    path("users/", include("users.urls")),
+            ]
+        ),
+    ),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
