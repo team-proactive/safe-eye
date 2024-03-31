@@ -34,12 +34,20 @@ install_initial() {
     done
 }
 
+install_pip() {
+    source ./venv/Scripts/activate
+    echo "Enter the name of the library to install:"
+    read library
+    pip install $library
+    pip freeze > requirements.txt
+    echo "$library has been installed."
+}
+
 remove_venv() {
     deactivate
     rm -rf venv
 }
 
-# . commands.sh
 activate_venv() {
     source ./venv/Scripts/activate
 }
@@ -56,7 +64,6 @@ migrate() {
 
 run() {
     trap 'kill $(jobs -p)' EXIT
-
     source ./venv/Scripts/activate
     python manage.py runserver 
     wait
@@ -65,7 +72,6 @@ run() {
 mock_data() {
     echo "Enter app name (or 'all' to load all apps):"
     read app_name
-
     if [ "$app_name" = "all" ]; then
         for app in */; do
             if [ -f "$app/fixtures/initial_data.json" ]; then
@@ -104,21 +110,19 @@ reinstall() {
     pip install -r requirements.txt
 }
 
-echo "Enter command (install, activate, migrate, run, create, static, reinstall, remove, add_admin, mock_data):"
+echo "Enter command (install, activate, migrate, run, create, static, reinstall, remove, add_admin, mock_data, install_pip):"
 read command
 case $command in
     "install") install_initial ;;
     "migrate") migrate ;;
     "run") run ;;
     "mock_data") mock_data ;;
-
     "static") create_static ;;
     "reinstall") reinstall ;;
     "remove") remove_venv ;;
     "activate") activate_venv ;;
     "add_admin") add_admin ;;
     "collectstatic") collectstatic ;;
+    "install_pip") install_pip ;;
     *) echo "Unknown command" ;;
 esac
-
-
