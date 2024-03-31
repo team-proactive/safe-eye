@@ -10,6 +10,8 @@
 - drf-yasg: Django REST Framework용 Swagger 생성기입니다. API 문서 자동화를 지원합니다.
 - graphene-django: Django에서 GraphQL을 사용하기 위한 라이브러리입니다.
 - psycopg2-binary: PostgreSQL 데이터베이스와 연동하기 위한 어댑터입니다.
+- django-cors-headers: 프론트엔드와의 연결을 위한 라이브러리
+- django-environ: env 설정
 
 현재 없는 것, JWT 관련 패키지.
 accounts 앱을 담당하실 분이 관련 패키지를 설치한 후, 로그인 기능을 만들고 test id, test password, 프론트에 전달할 토큰 관련 설정을 여기에 적어주시면 됩니다.
