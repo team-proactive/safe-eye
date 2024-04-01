@@ -3,6 +3,7 @@
     "model": "notice.notice",
     "pk": 1,
     "fields": {
+      "id": "1",
       "title": "Notice 1",
       "content": "This is the content for Notice 1",
       "created_at": "2022-01-01T00:00:00Z",
@@ -13,6 +14,7 @@
     "model": "notice.notice",
     "pk": 2,
     "fields": {
+      "id": "2",
       "title": "Notice 2",
       "content": "This is the content for Notice 2",
       "created_at": "2022-01-02T00:00:00Z",
@@ -23,6 +25,7 @@
     "model": "notice.notice",
     "pk": 3,
     "fields": {
+      "id": "3",
       "title": "Notice 3",
       "content": "This is the content for Notice 3",
       "created_at": "2022-01-03T00:00:00Z",
