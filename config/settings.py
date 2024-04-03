@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "drf_yasg",
-    "graphene_django",
     "notice",
 ]
 
@@ -99,6 +98,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,  # 페이지당 아이템 수를 설정합니다.
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
