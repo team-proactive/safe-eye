@@ -1,0 +1,96 @@
+[
+  {
+    "model": "auth.User",
+    "pk": 2,
+    "fields": {
+      "username": "admin",
+      "password": "pbkdf2_sha256$720000$CVLevkS5l2qITLiHaL1nBd$6jXPUsxCspG6Ls4Y95Duux5OowoXgA8EmaM48EfgVsc=",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true
+    }
+  },
+  {
+    "model": "blog.Category",
+    "pk": 1,
+    "fields": {
+      "name": "Category 1"
+    }
+  },
+  {
+    "model": "blog.Category",
+    "pk": 2,
+    "fields": {
+      "name": "Category 2"
+    }
+  },
+  {
+    "model": "blog.Tag",
+    "pk": 1,
+    "fields": {
+      "name": "Tag 1"
+    }
+  },
+  {
+    "model": "blog.Tag",
+    "pk": 2,
+    "fields": {
+      "name": "Tag 2"
+    }
+  },
+  {
+    "model": "blog.Tag",
+    "pk": 3,
+    "fields": {
+      "name": "Tag 3"
+    }
+  },
+  {
+    "model": "blog.Post",
+    "pk": 1,
+    "fields": {
+      "title": "Post 1",
+      "content": "This is the content for Post 1",
+      "author": 2,
+      "created_at": "2022-01-01T00:00:00Z",
+      "updated_at": "2022-01-01T00:00:00Z",
+      "published": true,
+      "published_at": "2022-01-01T00:00:00Z",
+      "view_count": 111,
+      "category": 1,
+      "tags": [1, 2]
+    }
+  },
+  {
+    "model": "blog.Post",
+    "pk": 2,
+    "fields": {
+      "title": "Post 2",
+      "content": "This is the content for Post 2",
+      "author": 2,
+      "created_at": "2022-01-01T00:00:00Z",
+      "updated_at": "2022-01-01T00:00:00Z",
+      "published": true,
+      "published_at": "2022-01-01T00:00:00Z",
+      "view_count": 222,
+      "category": 2,
+      "tags": [2, 3]
+    }
+  },
+  {
+    "model": "blog.Post",
+    "pk": 3,
+    "fields": {
+      "title": "Post 3",
+      "content": "This is the content for Post 3",
+      "author": 2,
+      "created_at": "2022-01-01T00:00:00Z",
+      "updated_at": "2022-01-01T00:00:00Z",
+      "published": false,
+      "published_at": "2022-01-01T00:00:00Z",
+      "view_count": 333,
+      "category": 1,
+      "tags": [1, 3]
+    }
+  }
+]
