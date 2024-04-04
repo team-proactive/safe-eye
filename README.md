@@ -48,15 +48,12 @@ Safe Eye는 실시간 군중 밀집도 모니터링과 화재 감지 기능을 �
    - 시스템 상태 모니터링 및 진단 도구
    - 사용자 인터페이스 테마 및 개인화 옵션
 
-
-
 ## 기술 스택
 
 - Django
 - Pillow: Python Imaging Library로, 이미지 처리 기능을 제공합니다.
 - djangorestframework: Django 기반의 RESTful API를 구축하기 위한 프레임워크입니다.
 - drf-yasg: Django REST Framework용 Swagger 생성기입니다. API 문서 자동화를 지원합니다.
-- graphene-django: Django에서 GraphQL을 사용하기 위한 라이브러리입니다.
 - psycopg2-binary: PostgreSQL 데이터베이스와 연동하기 위한 어댑터입니다.
 - django-cors-headers: 프론트엔드와의 연결을 위한 라이브러리
 - django-environ: env 설정
@@ -70,18 +67,13 @@ accounts 앱을 담당하실 분이 관련 패키지를 설치한 후, 로그인
 
 ## 아키텍쳐 예시
 
-
 ![e03cb933-eb4b-499c-88c1-d45d6ed31793](https://github.com/team-proactive/safe-eye/assets/89088205/c135a321-97a8-4ad3-b941-22a97f723345)
-
 
 - 94-01 프론트 Next.js로 변경
 - jenkins는 사용하지 않는게 좋겠다고 하셨음
 - graphQL도 사용하지 않는게 좋겠다고 하셨음
 
-
-
 ## Django 공식 문서!
-
 
 Django에 대한 자세한 내용은 공식 문서를 참고하세요: [https://docs.djangoproject.com/](https://docs.djangoproject.com/)
 
@@ -125,7 +117,7 @@ DATABASE_PORT=5432
 
 ## DRF 사용
 
-이 프로젝트에서는 Django REST Framework(DRF)를 사용하여 RESTful API를 구축합니다. 
+이 프로젝트에서는 Django REST Framework(DRF)를 사용하여 RESTful API를 구축합니다.
 
 ### DRF 사용 예시
 
@@ -154,7 +146,6 @@ class NoticeSerializer(serializers.ModelSerializer):
 ```
 
 위의 코드는 `NoticeViewSet`과 `NoticeSerializer`를 정의하여 `Notice` 모델에 대한 CRUD 작업을 수행할 수 있는 API 엔드포인트를 제공합니다.
-
 
 ## 설치 및 실행
 
@@ -190,12 +181,12 @@ class NoticeSerializer(serializers.ModelSerializer):
 
 모델을 변경한 후에는 안전하게 데이터베이스를 삭제하고, AI를 활용하여 해당 모델에 대한 `initial_data.json` 파일을 생성합니다. 그런 다음 `mock_data` 명령어를 사용하여 초기 데이터를 로드합니다.
 
-
 ## 폴더 구조
 
 ## ERD
 
 ## API 명세
+
 ## Notice 앱
 
 `notice` 앱은 이 프로젝트의 예시 앱입니다. 이 앱은 공지사항 기능을 제공하며, 모델과 뷰, 시리얼라이저 등이 구현되어 있습니다.
