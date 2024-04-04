@@ -68,8 +68,20 @@ accounts 앱을 담당하실 분이 관련 패키지를 설치한 후, 로그인
    pip freeze > requirements.txt
 ```
 
+## 아키텍쳐 예시
 
-## Django 공식 문서
+
+![e03cb933-eb4b-499c-88c1-d45d6ed31793](https://github.com/team-proactive/safe-eye/assets/89088205/c135a321-97a8-4ad3-b941-22a97f723345)
+
+
+- 94-01 프론트 Next.js로 변경
+- jenkins는 사용하지 않는게 좋겠다고 하셨음
+- graphQL도 사용하지 않는게 좋겠다고 하셨음
+
+
+
+## Django 공식 문서!
+
 
 Django에 대한 자세한 내용은 공식 문서를 참고하세요: [https://docs.djangoproject.com/](https://docs.djangoproject.com/)
 
@@ -111,9 +123,9 @@ DATABASE_PORT=5432
 [커맨드라인](https://devpro.kr/posts/PSQL-%EC%82%AC%EC%9A%A9%EB%B2%95-%EC%A0%95%EB%A6%AC/)
 [admin으로](https://blog.eunsukim.me/posts/usage-and-istallation-of-postgresql-and-pgadmin4)
 
-## DRF와 GraphQL 조합하기
+## DRF 사용
 
-이 프로젝트에서는 Django REST Framework(DRF)를 사용하여 RESTful API를 구축합니다. 또한, GraphQL을 함께 사용하여 클라이언트의 요구에 맞게 유연하고 효율적인 데이터 쿼리를 제공할 수 있습니다.
+이 프로젝트에서는 Django REST Framework(DRF)를 사용하여 RESTful API를 구축합니다. 
 
 ### DRF 사용 예시
 
@@ -178,12 +190,12 @@ class NoticeSerializer(serializers.ModelSerializer):
 
 모델을 변경한 후에는 안전하게 데이터베이스를 삭제하고, AI를 활용하여 해당 모델에 대한 `initial_data.json` 파일을 생성합니다. 그런 다음 `mock_data` 명령어를 사용하여 초기 데이터를 로드합니다.
 
-## GraphQL
 
-이 프로젝트는 GraphQL을 사용하여 API를 제공합니다. GraphQL은 클라이언트가 필요한 데이터를 정확하게 요청할 수 있는 쿼리 언어입니다. GraphQL 스키마는 `schema.py` 파일에 정의되어 있으며, 쿼리와 뮤테이션을 포함합니다.
+## 폴더 구조
 
-GraphQL 엔드포인트에 접근하려면 `/graphql` URL을 사용하면 됩니다.
+## ERD
 
+## API 명세
 ## Notice 앱
 
 `notice` 앱은 이 프로젝트의 예시 앱입니다. 이 앱은 공지사항 기능을 제공하며, 모델과 뷰, 시리얼라이저 등이 구현되어 있습니다.
