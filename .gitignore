@@ -11,6 +11,10 @@ db.sqlite3
 db.sqlite3-journal
 media
 
+# Django migrations
+*/migrations/*
+!*/migrations/__init__.py
+
 # test commit
 ./example
 
