@@ -5,7 +5,7 @@ from .models import Tag, Status
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ['id', 'tag_type', 'tag_content', 'tag_id', 'content_type', 'object_id']
+        fields = ['id', 'tag_type', 'tag_content', 'content_type', 'object_id']
 
 
 class StatusSerializer(serializers.ModelSerializer):

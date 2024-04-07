@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
@@ -18,12 +17,10 @@ class TagTests(APITestCase):
             password='testpassword'
         )
         self.client.force_authenticate(user=self.user)
-        self.content_type = ContentType.objects.get_for_model(Tag)
         self.tag = Tag.objects.create(
             tag_type='test_type',
             tag_content='test_content',
-            tag_id=1,
-            content_type=self.content_type,
+            content_type_id=1,
             object_id=1
         )
         print("태그 테스트 케이스 설정 완료.")
@@ -36,7 +33,7 @@ class TagTests(APITestCase):
 
     def test_get_tags(self):
         print("태그 조회 테스트 중...")
-        url = reverse('tag-list-create')
+        url = reverse('tag-list')
         print("GET 요청 전송 중...")
         response = self.client.get(url)
         print("응답 받음. 응답 검증 중...")
@@ -45,12 +42,11 @@ class TagTests(APITestCase):
 
     def test_create_tag(self):
         print("태그 생성 테스트 중...")
-        url = reverse('tag-list-create')
+        url = reverse('tag-list')
         data = {
             'tag_type': 'new_type',
             'tag_content': 'new_content',
-            'tag_id': 2,
-            'content_type': self.content_type.id,
+            'content_type': 1,
             'object_id': 2
         }
         print("POST 요청 전송 중...")
@@ -62,7 +58,7 @@ class TagTests(APITestCase):
 
     def test_retrieve_tag(self):
         print("태그 조회 테스트 중...")
-        url = reverse('tag-retrieve-update-destroy', kwargs={'pk': self.tag.id})
+        url = reverse('tag-detail', kwargs={'pk': self.tag.id})
         print("GET 요청 전송 중...")
         response = self.client.get(url)
         print("응답 받음. 응답 검증 중...")
@@ -71,12 +67,11 @@ class TagTests(APITestCase):
 
     def test_update_tag(self):
         print("태그 수정 테스트 중...")
-        url = reverse('tag-retrieve-update-destroy', kwargs={'pk': self.tag.id})
+        url = reverse('tag-detail', kwargs={'pk': self.tag.id})
         data = {
             'tag_type': 'updated_type',
             'tag_content': 'updated_content',
-            'tag_id': 1,
-            'content_type': self.content_type.id,
+            'content_type': 1,
             'object_id': 1
         }
         print("PUT 요청 전송 중...")
@@ -89,7 +84,7 @@ class TagTests(APITestCase):
 
     def test_delete_tag(self):
         print("태그 삭제 테스트 중...")
-        url = reverse('tag-retrieve-update-destroy', kwargs={'pk': self.tag.id})
+        url = reverse('tag-detail', kwargs={'pk': self.tag.id})
         print("DELETE 요청 전송 중...")
         response = self.client.delete(url)
         print("응답 받음. 응답 검증 중...")
@@ -108,10 +103,9 @@ class StatusTests(APITestCase):
             password='testpassword'
         )
         self.client.force_authenticate(user=self.user)
-        self.content_type = ContentType.objects.get_for_model(Status)
         self.status = Status.objects.create(
             available=True,
-            content_type=self.content_type,
+            content_type_id=1,
             object_id=1
         )
         print("상태 테스트 케이스 설정 완료.")
@@ -124,7 +118,7 @@ class StatusTests(APITestCase):
 
     def test_get_statuses(self):
         print("상태 조회 테스트 중...")
-        url = reverse('status-list-create')
+        url = reverse('status-list')
         print("GET 요청 전송 중...")
         response = self.client.get(url)
         print("응답 받음. 응답 검증 중...")
@@ -133,10 +127,10 @@ class StatusTests(APITestCase):
 
     def test_create_status(self):
         print("상태 생성 테스트 중...")
-        url = reverse('status-list-create')
+        url = reverse('status-list')
         data = {
             'available': False,
-            'content_type': self.content_type.id,
+            'content_type': 1,
             'object_id': 2
         }
         print("POST 요청 전송 중...")
@@ -148,7 +142,7 @@ class StatusTests(APITestCase):
 
     def test_retrieve_status(self):
         print("상태 조회 테스트 중...")
-        url = reverse('status-retrieve-update-destroy', kwargs={'pk': self.status.id})
+        url = reverse('status-detail', kwargs={'pk': self.status.id})
         print("GET 요청 전송 중...")
         response = self.client.get(url)
         print("응답 받음. 응답 검증 중...")
@@ -157,10 +151,10 @@ class StatusTests(APITestCase):
 
     def test_update_status(self):
         print("상태 수정 테스트 중...")
-        url = reverse('status-retrieve-update-destroy', kwargs={'pk': self.status.id})
+        url = reverse('status-detail', kwargs={'pk': self.status.id})
         data = {
             'available': False,
-            'content_type': self.content_type.id,
+            'content_type': 1,
             'object_id': 1
         }
         print("PUT 요청 전송 중...")
@@ -173,7 +167,7 @@ class StatusTests(APITestCase):
 
     def test_delete_status(self):
         print("상태 삭제 테스트 중...")
-        url = reverse('status-retrieve-update-destroy', kwargs={'pk': self.status.id})
+        url = reverse('status-detail', kwargs={'pk': self.status.id})
         print("DELETE 요청 전송 중...")
         response = self.client.delete(url)
         print("응답 받음. 응답 검증 중...")

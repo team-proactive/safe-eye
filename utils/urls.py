@@ -1,10 +1,11 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import TagViewSet, StatusViewSet
+
+router = DefaultRouter()
+router.register(r'tags', TagViewSet)
+router.register(r'status', StatusViewSet)
 
 urlpatterns = [
-    path('tags/', views.TagListCreateAPIView.as_view(), name='tag-list-create'),
-    path('tags/<int:pk>/', views.TagRetrieveUpdateDestroyAPIView.as_view(), name='tag-retrieve-update-destroy'),
-    
-    path('status/', views.StatusListCreateAPIView.as_view(), name='status-list-create'),
-    path('status/<int:pk>/', views.StatusRetrieveUpdateDestroyAPIView.as_view(), name='status-retrieve-update-destroy'),
+    path('', include(router.urls)),
 ]
