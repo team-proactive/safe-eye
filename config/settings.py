@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "graphene_django",
     "notice",
+    "media",
 ]
 
 MIDDLEWARE = [
@@ -54,8 +55,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
-print(f"CORS_ALLOWED_ORIGINS: {CORS_ALLOWED_ORIGINS}")
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+# print(f"CORS_ALLOWED_ORIGINS: {CORS_ALLOWED_ORIGINS}")
 CORS_ALLOW_CREDENTIALS = True
 
 
