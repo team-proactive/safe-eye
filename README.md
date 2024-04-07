@@ -162,9 +162,264 @@ SafeEye 프로젝트는 [MIT 라이선스](LICENSE)를 따릅니다.
 
 ## 폴더 구조
 
-## ERD
+```
+📦safe-eye
+ ┣ 📂config
+ ┃ ┣ 📜asgi.py
+ ┃ ┣ 📜settings.py
+ ┃ ┣ 📜urls.py
+ ┃ ┗ 📜wsgi.py
+ ┣ 📂accounts
+ ┃ ┣ 📜admin.py
+ ┃ ┣ 📜apps.py
+ ┃ ┣ 📜models.py
+ ┃ ┣ 📜serializers.py
+ ┃ ┣ 📜tests.py
+ ┃ ┣ 📜urls.py
+ ┃ ┗ 📜views.py
+ ┣ 📂alarm
+ ┃ ┣ 📂fixtures
+ ┃ ┃ ┣ 📜initial_data.json
+ ┃ ┃ ┗ 📜mock_data_gen.py
+ ┃ ┣ 📜admin.py
+ ┃ ┣ 📜apps.py
+ ┃ ┣ 📜models.py
+ ┃ ┣ 📜serializers.py
+ ┃ ┣ 📜tests.py
+ ┃ ┣ 📜urls.py
+ ┃ ┗ 📜views.py
+ ┣ 📂notice
+ ┃ ┣ 📂fixtures
+ ┃ ┃ ┣ 📜initial_data.json
+ ┃ ┃ ┗ 📜mock_data_gen.py
+ ┃ ┣ 📜admin.py
+ ┃ ┣ 📜apps.py
+ ┃ ┣ 📜models.py
+ ┃ ┣ 📜serializers.py
+ ┃ ┣ 📜tests.py
+ ┃ ┣ 📜urls.py
+ ┃ ┗ 📜views.py
+ ┣ 📂madia
+ ┃ ┣ 📂fixtures
+ ┃ ┃ ┣ 📜initial_data.json
+ ┃ ┃ ┗ 📜mock_data_gen.py
+ ┃ ┣ 📜admin.py
+ ┃ ┣ 📜apps.py
+ ┃ ┣ 📜models.py
+ ┃ ┣ 📜serializers.py
+ ┃ ┣ 📜tests.py
+ ┃ ┣ 📜urls.py
+ ┃ ┗ 📜views.py
+ ┣ 📂utils
+ ┃ ┣ 📂fixtures
+ ┃ ┃ ┗ 📜initial_data.json
+ ┃ ┣ 📂migrations
+ ┃ ┣ 📜admin.py
+ ┃ ┣ 📜apps.py
+ ┃ ┣ 📜mixins.py
+ ┃ ┣ 📜models.py
+ ┃ ┣ 📜serializers.py
+ ┃ ┣ 📜tests.py
+ ┃ ┣ 📜urls.py
+ ┃ ┣ 📜views.py
+ ┣ 📜.env
+ ┣ 📜.env.example
+ ┣ 📜.gitignore
+ ┣ 📜a-team.png
+ ┣ 📜commands.sh
+ ┣ 📜manage.py
+ ┣ 📜README.md
+ ┗ 📜requirements.txt
+```
 
-## API 명세
+## 앱 설명
+
+1. accounts 앱:
+
+   - 커스텀 유저 모델을 정의하고 관리하는 앱입니다.
+   - 사용자 인증, 회원가입, 로그인 등의 기능을 담당합니다.
+   - 사용자 정보 관련 API 엔드포인트를 제공합니다.
+
+2. utils 앱:
+
+   - 여러 앱에서 공통적으로 사용되는 유틸리티 모듈을 모아둔 앱입니다.
+   - 태그, 상태 등의 상수 값을 정의하고 관리합니다.
+   - 믹스인(Mixin) 클래스를 제공하여 코드 재사용성을 높입니다.
+
+3. media 앱:
+
+   - AI 모델의 출력값(이미지)을 저장하고 관리하는 앱입니다.
+   - 분석된 이미지 파일을 저장하고 서빙하는 기능을 제공합니다.
+   - 이미지 업로드, 다운로드 등의 API 엔드포인트를 제공합니다.
+
+4. alarm 앱:
+
+   - 경고 메시지를 생성하고 관리하는 앱입니다.
+   - 이상 행동 감지 시 알람을 발송하는 기능을 담당합니다.
+   - 알람 설정, 알람 로그 관리 등의 기능을 제공합니다.
+
+5. notice 앱:
+
+   - 공지사항과 관련된 기능을 담당하는 앱입니다.
+   - 시스템 관리자가 사용자에게 공지사항을 전달하는 기능을 제공합니다.
+   - 공지사항 목록, 상세 보기, 생성, 수정, 삭제 등의 API 엔드포인트를 제공합니다.
+
+6. ai 앱:
+   - AI 모델을 활용하여 영상 분석을 수행하는 앱입니다.
+   - CCTV 영상을 실시간으로 분석하고 이상 행동을 감지하는 기능을 담당합니다.
+   - AI 모델 추론, 결과 저장, 알람 생성 등의 작업을 수행합니다.
+
+fixtures 디렉토리는 초기 데이터를 로드하기 위한 JSON 파일을 포함합니다.
+
+# Safe Eye 프로젝트 ERD
+
+## 1. 모델 설명
+
+### 1.1 utils 앱
+
+#### 1.1.1 Tag 모델
+
+- id: AutoField, 태그의 고유 식별자
+- tag_type: CharField, 태그의 유형
+- tag_content: CharField, 태그의 내용
+- content_type: ForeignKey, 연결된 모델의 ContentType
+- object_id: PositiveIntegerField, 연결된 모델의 객체 id
+- content_object: GenericForeignKey, 연결된 모델의 객체
+
+#### 1.1.2 Status 모델
+
+- available: BooleanField, 상태의 유효성 여부
+- content_type: ForeignKey, 연결된 모델의 ContentType
+- object_id: PositiveIntegerField, 연결된 모델의 객체 id
+- content_object: GenericForeignKey, 연결된 모델의 객체
+- created_at: DateTimeField, 상태 생성 시간
+- updated_at: DateTimeField, 상태 업데이트 시간
+
+#### 1.1.3 TagMixin 모델
+
+- tags: GenericRelation, Tag 모델과의 관계
+
+#### 1.1.4 StatusMixin 모델
+
+- status: GenericRelation, Status 모델과의 관계
+
+### 1.2 accounts 앱
+
+#### 1.2.1 CustomUser 모델
+
+- AbstractUser 모델을 상속받아 구현
+- profile_picture: ImageField, 사용자 프로필 사진
+- profile_message: TextField, 사용자 프로필 메시지
+- profile_status: GenericRelation, StatusMixin을 통해 Status 모델과 관계 (추가)
+
+### 1.3 notice 앱
+
+#### 1.3.1 Notice 모델
+
+- id: AutoField, 공지사항의 고유 식별자
+- title: CharField, 공지사항 제목
+- content: TextField, 공지사항 내용
+- created_at: DateTimeField, 공지사항 생성 시간
+- updated_at: DateTimeField, 공지사항 업데이트 시간
+
+### 1.4 alarm 앱 (추가 필요)
+
+#### 1.4.1 Alarm 모델
+
+- id: AutoField, 알람의 고유 식별자
+- alarm_type: CharField, 알람 유형 (이상 행동, 위험 상황 등)
+- alarm_content: TextField, 알람 내용
+- created_at: DateTimeField, 알람 생성 시간
+- updated_at: DateTimeField, 알람 업데이트 시간
+- user: ForeignKey, 알람과 연결된 사용자 (CustomUser 모델과 연결)
+
+### 1.5 ai 앱 (추가 필요)
+
+#### 1.5.1 AnalysisResult 모델
+
+- id: AutoField, 분석 결과의 고유 식별자
+- video: FileField, 분석 대상 비디오 파일
+- result_image: ImageField, 분석 결과 이미지
+- analysis_type: CharField, 분석 유형 (이상 행동, 객체 인식 등)
+- created_at: DateTimeField, 분석 결과 생성 시간
+- updated_at: DateTimeField, 분석 결과 업데이트 시간
+- user: ForeignKey, 분석 결과와 연결된 사용자 (CustomUser 모델과 연결)
+
+## 2. ERD
+
+ERD는 현재 고민 중입니다.
+
+```mermaid
+classDiagram
+    class Tag {
+        +AutoField id
+        +CharField tag_type
+        +CharField tag_content
+        +ForeignKey content_type
+        +PositiveIntegerField object_id
+        +GenericForeignKey content_object
+    }
+
+    class Status {
+        +BooleanField available
+        +ForeignKey content_type
+        +PositiveIntegerField object_id
+        +GenericForeignKey content_object
+        +DateTimeField created_at
+        +DateTimeField updated_at
+    }
+
+    class TagMixin {
+        +GenericRelation tags
+    }
+
+    class StatusMixin {
+        +GenericRelation status
+    }
+
+    class CustomUser {
+        +ImageField profile_picture
+        +CharField profile_status
+        +TextField profile_message
+        +GenericRelation status
+    }
+
+    class Notice {
+        +AutoField id
+        +CharField title
+        +TextField content
+        +DateTimeField created_at
+        +DateTimeField updated_at
+    }
+
+    class Alarm {
+        +AutoField id
+        +CharField alarm_type
+        +TextField alarm_content
+        +DateTimeField created_at
+        +DateTimeField updated_at
+        +ForeignKey user
+    }
+
+    class AnalysisResult {
+        +AutoField id
+        +FileField video
+        +ImageField result_image
+        +CharField analysis_type
+        +DateTimeField created_at
+        +DateTimeField updated_at
+        +ForeignKey user
+    }
+
+    CustomUser --|> AbstractUser
+    CustomUser --|> StatusMixin
+    CustomUser "1" --> "*" Alarm
+    CustomUser "1" --> "*" AnalysisResult
+```
+
+- Alarm 모델은 알람의 유형, 내용, 생성/업데이트 시간 등의 필드를 가지며, CustomUser 모델과 외래 키로 연결되어 있습니다.
+- AnalysisResult 모델은 분석 대상 비디오 파일, 분석 결과 이미지, 분석 유형, 생성/업데이트 시간 등의 필드를 가지며, CustomUser 모델과 외래 키로 연결되어 있습니다.
+- tag와 status는 user나 이벤트에 쓰일 수 있습니다.
 
 ## Notice 앱
 
