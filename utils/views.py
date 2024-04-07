@@ -1,50 +1,64 @@
-from rest_framework import generics
+from rest_framework import viewsets
 from .mixins import Custom404Mixin, IsAuthorOrReadOnly
 from .models import Tag, Status
 from .serializers import TagSerializer, StatusSerializer
+from rest_framework.pagination import PageNumberPagination
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
-class TagListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Tag.objects.all()
+class CustomPageNumberPagination(PageNumberPagination):
+    def get_page_size(self, request):
+        if "page_size" in request.query_params:
+            return min(int(request.query_params["page_size"]), 100)
+        return self.page_size
+
+
+class TagViewSet(Custom404Mixin, viewsets.ModelViewSet):
+    queryset = Tag.objects.order_by('-id')  # 정렬 조건 추가
     serializer_class = TagSerializer
     permission_classes = [IsAuthorOrReadOnly]
-
-    def perform_create(self, serializer):
-        serializer.save()
-
-    # 객체 생성 직전에 추가 로직을 실행 
-#    def perform_create(self, serializer):
-#        content_object = serializer.validated_data['content_object']     # content_object 의 작성자를 현재 사용자로 설정
-#        content_object.author = self.request.user
-#        content_object.save()
-#        serializer.save()
-
-
-class TagRetrieveUpdateDestroyAPIView(Custom404Mixin, generics.RetrieveUpdateDestroyAPIView):
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
-    permission_classes = [IsAuthorOrReadOnly]
+    pagination_class = CustomPageNumberPagination
+    filter_fields = ["id", "tag_type", "tag_content"]
     custom_404_message = "해당 태그를 찾을 수 없습니다."
 
-
-class StatusListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Status.objects.all()
-    serializer_class = StatusSerializer
-    permission_classes = [IsAuthorOrReadOnly]
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                name="page_size",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_INTEGER,
+                description="Number of results to return per page.",
+            )
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save()
 
-#    # 객체 생성 직전에 추가 로직을 실행 
-#    def perform_create(self, serializer):
-#        content_object = serializer.validated_data['content_object']    # content_object 의 작성자를 현재 사용자로 설정
-#        content_object.author = self.request.user
-#        content_object.save()
-#        serializer.save()
 
-
-class StatusRetrieveUpdateDestroyAPIView(Custom404Mixin, generics.RetrieveUpdateDestroyAPIView):
-    queryset = Status.objects.all()
+class StatusViewSet(Custom404Mixin, viewsets.ModelViewSet):
+    queryset = Status.objects.order_by('-created_at')
     serializer_class = StatusSerializer
     permission_classes = [IsAuthorOrReadOnly]
+    pagination_class = CustomPageNumberPagination
+    filter_fields = ["id", "available"]
     custom_404_message = "해당 상태를 찾을 수 없습니다."
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                name="page_size",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_INTEGER,
+                description="Number of results to return per page.",
+            )
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save()
