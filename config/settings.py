@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_yasg",
     "notice",
+    "media",
     "utils",
+
 ]
 
 MIDDLEWARE = [
@@ -53,6 +55,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 #print(f"CORS_ALLOWED_ORIGINS: {CORS_ALLOWED_ORIGINS}")

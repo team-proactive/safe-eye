@@ -5,6 +5,10 @@ from drf_yasg.views import get_schema_view
 
 from django.shortcuts import redirect
 
+from .schema import schema
+from django.contrib import admin
+from django.urls import path, include
+
 
 schema_view = get_schema_view(
     openapi.Info(
