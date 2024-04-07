@@ -1,14 +1,59 @@
-제안해주신 내용을 반영하여 README.md 파일을 업데이트했습니다:
+# Safe Eye README
 
-# Django 프로젝트 README
+Safe Eye는 실시간 군중 밀집도 모니터링과 화재 감지 기능을 통합한 스마트 안전 경고 알람 서비스입니다.
 
-이 프로젝트는 Django를 사용하여 개발된 웹 애플리케이션입니다. Django는 Python 기반의 웹 프레임워크로, 빠른 개발과 깨끗한 디자인을 지향합니다. 다음과 같은 패키지들이 설치되어 있습니다:
+공공 안전, 이벤트 관리, 시설 관리 등 다양한 분야에서 안전 관리자가 군중 밀집과 화재 위험을 효율적으로 모니터링하고 대응할 수 있도록 도와줍니다. AI 기술과 직관적인 사용자 인터페이스를 통해 안전 관리 프로세스를 간소화하고 최적화하며, 잠재적인 위험 상황에 신속하게 대처.
+
+## 주요 기능(종료일까지 가능한 것을 제작하고, 체크표시를 합니다.)
+
+1. **실시간 모니터링 화면**
+
+   - 다중 CCTV 카메라 피드를 실시간으로 표시
+   - 군중 밀도 히트맵 오버레이와 화재 감지 상태 표시
+   - 실시간 군중 수 및 밀도 백분율 표시
+   - 사용자 정의 가능한 카메라 뷰 및 레이아웃
+   - 이벤트 및 시간대 북마크 및 태그 기능
+
+2. **상세 분석 화면**
+
+   - 선택한 카메라 또는 영역의 고해상도 비디오 피드
+   - 시간에 따른 군중 밀도 변화를 보여주는 타임라인 그래프
+   - 화재 감지 이벤트 목록 및 상세 정보
+   - 모니터링 영역의 상세 지도 또는 평면도
+   - 사용자 메모 및 설명 추가 기능
+   - 비디오 클립, 스크린샷 및 이벤트 데이터 내보내기
+
+3. **경고 및 알람 설정 화면**
+
+   - 맞춤형 군중 밀도 경고 및 화재 감지 알람 임계값 설정
+   - 경고 및 알람 수준에 따른 특정 작업 설정
+   - 생성형 AI 모델을 활용한 맥락 적합 경고 및 알람 메시지 자동 생성
+   - 사용자 정의 가능한 알림 메시지 및 수신자 목록
+   - 정기적인 테스트 및 훈련 예약 기능
+
+4. **통계 및 보고 화면**
+
+   - 군중 밀도 추세, 피크 시간 및 평균 밀도에 대한 대화형 그래프와 차트
+   - 군중 밀도 및 화재 사고 지역 히트맵 오버레이
+   - 화재 이벤트에 대한 상세 보고서 생성
+   - 이벤트 데이터 필터링 및 정렬 옵션
+   - 통계 데이터, 이벤트 로그 및 보고서 내보내기
+   - 자동 보고서 생성 및 전달 예약 기능
+
+5. **사용자 관리 및 설정 화면**
+   - 다양한 액세스 수준 및 권한을 가진 사용자 계정 관리
+   - 사용자 프로필 정보 업데이트 및 알림 기본 설정
+   - 글로벌 시스템 설정 구성
+   - AI 모델 관리 및 업데이트
+   - 시스템 상태 모니터링 및 진단 도구
+   - 사용자 인터페이스 테마 및 개인화 옵션
+
+## 기술 스택
 
 - Django
 - Pillow: Python Imaging Library로, 이미지 처리 기능을 제공합니다.
 - djangorestframework: Django 기반의 RESTful API를 구축하기 위한 프레임워크입니다.
 - drf-yasg: Django REST Framework용 Swagger 생성기입니다. API 문서 자동화를 지원합니다.
-- graphene-django: Django에서 GraphQL을 사용하기 위한 라이브러리입니다.
 - psycopg2-binary: PostgreSQL 데이터베이스와 연동하기 위한 어댑터입니다.
 - django-cors-headers: 프론트엔드와의 연결을 위한 라이브러리
 - django-environ: env 설정
@@ -20,11 +65,15 @@ accounts 앱을 담당하실 분이 관련 패키지를 설치한 후, 로그인
    pip freeze > requirements.txt
 ```
 
-# Django 프로젝트 README
+## 아키텍쳐 예시
 
-아직 이름 못지음, 월요일 회의 때 짓겠습니다.
+![e03cb933-eb4b-499c-88c1-d45d6ed31793](https://github.com/team-proactive/safe-eye/assets/89088205/c135a321-97a8-4ad3-b941-22a97f723345)
 
-## Django 공식 문서
+- 94-01 프론트 Next.js로 변경
+- jenkins는 사용하지 않는게 좋겠다고 하셨음
+- graphQL도 사용하지 않는게 좋겠다고 하셨음
+
+## Django 공식 문서!
 
 Django에 대한 자세한 내용은 공식 문서를 참고하세요: [https://docs.djangoproject.com/](https://docs.djangoproject.com/)
 
@@ -39,9 +88,9 @@ GraphQL에 대한 자세한 내용은 공식 문서를 참고하세요: [https:/
 `PostgreSQL 16`을 씁니다. [소개 링크](https://postgresql.kr/news/pg16_release.html)
 
 홈페이지 [여기](https://www.postgresql.org/)
-다운로드는 [여기](https://www.enterprisedb.com/download-postgresql-binaries)
+다운로드는 [여기](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 
-웹에 올려지는 db는 공통이고, 로컬에서는 각자 로컬 db로 작업하겠습니다.
+웹에 올려지는, 배포용 db는 공용이고, 로컬에서는 각자 로컬 db로 작업하겠습니다.
 
 1. `.env.example` 파일을 복사해서 `.env`를 만드세요.
 
@@ -57,7 +106,7 @@ DATABASE_HOST=localhost
 DATABASE_PORT=5432
 ```
 
-다운받은 것 중에 `터미널`을 사용하거나 `GUI`용을 사용해서 서버와 DB를 만듭니다. 윈도우인 경우 `path 환경변수 설정`을 해주세요.
+다운받은 것 중에 `터미널`을 사용하거나 `ADMIN`을 사용해서 서버와 DB를 만듭니다. 윈도우인 경우 `path 환경변수 설정`을 해주세요.
 아름은 원하는거로 지어주시고 `database password`는 나중에 변경할 수 있긴 하지만 서버 설치 시에 정하는 것이므로 잊어버리지 않게 해주세요.
 
 로컬호스트와 5432 부분은 그대로 둡니다.
@@ -66,9 +115,9 @@ DATABASE_PORT=5432
 [커맨드라인](https://devpro.kr/posts/PSQL-%EC%82%AC%EC%9A%A9%EB%B2%95-%EC%A0%95%EB%A6%AC/)
 [admin으로](https://blog.eunsukim.me/posts/usage-and-istallation-of-postgresql-and-pgadmin4)
 
-## DRF와 GraphQL 조합하기
+## DRF 사용
 
-이 프로젝트에서는 Django REST Framework(DRF)를 사용하여 RESTful API를 구축합니다. 또한, GraphQL을 함께 사용하여 클라이언트의 요구에 맞게 유연하고 효율적인 데이터 쿼리를 제공할 수 있습니다.
+이 프로젝트에서는 Django REST Framework(DRF)를 사용하여 RESTful API를 구축합니다.
 
 ### DRF 사용 예시
 
@@ -97,101 +146,6 @@ class NoticeSerializer(serializers.ModelSerializer):
 ```
 
 위의 코드는 `NoticeViewSet`과 `NoticeSerializer`를 정의하여 `Notice` 모델에 대한 CRUD 작업을 수행할 수 있는 API 엔드포인트를 제공합니다.
-
-### GraphQL 사용 예시
-
-GraphQL을 사용하여 `Notice` 모델에 대한 쿼리를 구현하는 예시입니다:
-
-```python
-# schema.py
-import graphene
-from graphene_django import DjangoObjectType
-from .models import Notice
-
-class NoticeType(DjangoObjectType):
-    class Meta:
-        model = Notice
-        fields = ("id", "title", "content", "created_at", "updated_at")
-
-class Query(graphene.ObjectType):
-    notices = graphene.List(NoticeType)
-
-    def resolve_notices(self, info):
-        return Notice.objects.all()
-```
-
-위의 코드는 `NoticeType`을 정의하여 `Notice` 모델의 필드를 지정하고, `Query` 클래스에서 `notices` 쿼리를 정의하여 모든 `Notice` 객체를 반환합니다.
-
-### DRF와 GraphQL 조합 예시
-
-DRF와 GraphQL을 함께 사용하여 `Notice` 모델에 대한 API를 구현하는 예시입니다:
-
-```python
-# schema.py
-import graphene
-from graphene_django import DjangoObjectType
-from .models import Notice
-from .serializers import NoticeSerializer
-
-class NoticeType(DjangoObjectType):
-    class Meta:
-        model = Notice
-        fields = ("id", "title", "content", "created_at", "updated_at")
-        serializer_class = NoticeSerializer
-
-class Query(graphene.ObjectType):
-    notices = graphene.List(NoticeType)
-
-    def resolve_notices(self, info):
-        queryset = Notice.objects.all()
-        return queryset
-```
-
-위의 코드에서는 `NoticeType`에 `serializer_class`를 지정하여 DRF 시리얼라이저를 사용하도록 설정합니다. 이렇게 하면 GraphQL 타입이 DRF 시리얼라이저를 사용하여 데이터를 직렬화하고 검증할 수 있습니다.
-
-### 선택적으로 사용하기
-
-프로젝트의 요구 사항에 따라 DRF만 사용하거나 DRF와 GraphQL을 함께 사용할 수 있습니다. AI의 도움을 받아보면 좋습니다.
-
-- DRF만 사용하는 경우: RESTful API를 구축하고 싶거나, 간단한 CRUD 작업과 인증/권한 부여 등의 기능이 필요한 경우에 적합합니다.
-- DRF와 GraphQL을 함께 사용하는 경우: RESTful API와 함께 복잡한 쿼리나 관련된 데이터를 효율적으로 가져오고 싶은 경우에 적합합니다. GraphQL을 사용하면 클라이언트가 필요한 데이터를 유연하게 요청할 수 있습니다.
-
-## GraphQL 설정
-
-1. 각 앱의 `schema.py` 파일에 GraphQL 타입과 쿼리를 정의합니다.
-
-   ```python
-   import graphene
-   from graphene_django import DjangoObjectType
-   from .models import Notice
-
-   class NoticeType(DjangoObjectType):
-       class Meta:
-           model = Notice
-           fields = ("id", "title", "content", "created_at", "updated_at")
-
-   class Query(graphene.ObjectType):
-       notices = graphene.List(NoticeType)
-
-       def resolve_notices(self, info):
-           return Notice.objects.all()
-   ```
-
-2. 프로젝트 레벨의 `schema.py` 파일에서 각 앱의 쿼리가 병합되어 있습니다.
-
-   ```python
-   import graphene
-   from notice.schema import Query as NoticeQuery
-
-   class Query(NoticeQuery, graphene.ObjectType):
-       pass
-
-   schema = graphene.Schema(query=Query)
-   ```
-
-위의 예시 코드는 `notice` 앱의 `schema.py` 파일에서 `Notice` 모델에 대한 GraphQL 타입과 쿼리를 정의하는 방법을 보여줍니다. `NoticeType`은 `Notice` 모델의 필드를 지정하고, `Query` 클래스에서는 `notices` 쿼리를 정의하여 모든 `Notice` 객체를 반환합니다.
-
-프로젝트 레벨의 `schema.py` 파일에서는 각 앱의 쿼리를 병합하여 최종 스키마를 생성합니다.
 
 ## 설치 및 실행
 
@@ -227,11 +181,11 @@ class Query(graphene.ObjectType):
 
 모델을 변경한 후에는 안전하게 데이터베이스를 삭제하고, AI를 활용하여 해당 모델에 대한 `initial_data.json` 파일을 생성합니다. 그런 다음 `mock_data` 명령어를 사용하여 초기 데이터를 로드합니다.
 
-## GraphQL
+## 폴더 구조
 
-이 프로젝트는 GraphQL을 사용하여 API를 제공합니다. GraphQL은 클라이언트가 필요한 데이터를 정확하게 요청할 수 있는 쿼리 언어입니다. GraphQL 스키마는 `schema.py` 파일에 정의되어 있으며, 쿼리와 뮤테이션을 포함합니다.
+## ERD
 
-GraphQL 엔드포인트에 접근하려면 `/graphql` URL을 사용하면 됩니다.
+## API 명세
 
 ## Notice 앱
 

@@ -58,6 +58,7 @@ add_admin() {
 }
 
 migrate() {
+    source ./venv/Scripts/activate
     python manage.py makemigrations
     python manage.py migrate
 }
@@ -70,6 +71,7 @@ run() {
 }
 
 mock_data() {
+    source ./venv/Scripts/activate    
     echo "Enter app name (or 'all' to load all apps):"
     read app_name
     if [ "$app_name" = "all" ]; then
