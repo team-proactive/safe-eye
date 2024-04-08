@@ -1,3 +1,7 @@
+## SAFE EYE
+
+![safe-eye](https://github.com/team-proactive/safe-eye/assets/89088205/07c82789-292b-4c54-b5b0-fe1c5904d0db)
+
 ## 목차
 
 - [Safe Eye - 스마트안전 경고 알람 서비스](#safe-eye---스마트안전-경고-알람-서비스)
