@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "notice",
     "media",
     "utils",
+    "accounts",
 ]
 
 MIDDLEWARE = [
