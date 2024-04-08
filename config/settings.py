@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-
 from pathlib import Path
 import environ
 
@@ -43,7 +42,7 @@ INSTALLED_APPS = [
     "notice",
     "media",
     "utils",
-
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -59,7 +58,7 @@ MIDDLEWARE = [
 
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
-#print(f"CORS_ALLOWED_ORIGINS: {CORS_ALLOWED_ORIGINS}")
+# print(f"CORS_ALLOWED_ORIGINS: {CORS_ALLOWED_ORIGINS}")
 CORS_ALLOW_CREDENTIALS = True
 
 
@@ -164,3 +163,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "accounts.CustomUser"
