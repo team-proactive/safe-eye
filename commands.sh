@@ -76,6 +76,10 @@ mock_data() {
     read app_name
     if [ "$app_name" = "all" ]; then
         for app in */; do
+            if [ "$app" = "config/" ]; then
+                echo "Skipping config app..."
+                continue
+            fi
             if [ -f "$app/fixtures/initial_data.json" ]; then
                 python manage.py flush --no-input --database=default
                 python manage.py loaddata "$app/fixtures/initial_data.json"
@@ -85,6 +89,10 @@ mock_data() {
             fi
         done
     else
+        if [ "$app_name" = "config" ]; then
+            echo "Cannot load mock data for config app"
+            return
+        fi
         if [ -f "$app_name/fixtures/initial_data.json" ]; then
             python manage.py flush --no-input --database=default
             python manage.py loaddata "$app_name/fixtures/initial_data.json"
@@ -94,7 +102,6 @@ mock_data() {
         fi
     fi
 }
-
 create_static() {
     mkdir media
     mkdir static
