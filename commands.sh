@@ -59,6 +59,8 @@ activate_venv() {
 }
 
 add_admin() {
+    source ./venv/Scripts/activate
+    python manage.py makemigrations
     python manage.py migrate
     python manage.py createsuperuser
 }
