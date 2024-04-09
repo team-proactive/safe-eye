@@ -39,10 +39,14 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "drf_yasg",
+    "graphene_django",
+    "django_filters",
+    "django_extensions",
     "notice",
-    "media",
-    "utils",
     "accounts",
+
+    "media",
+    "utils"
 ]
 
 MIDDLEWARE = [
@@ -56,9 +60,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
-# print(f"CORS_ALLOWED_ORIGINS: {CORS_ALLOWED_ORIGINS}")
 CORS_ALLOW_CREDENTIALS = True
 
 
@@ -87,7 +90,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -102,25 +105,35 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 10,  # 페이지당 아이템 수를 설정합니다.
-}
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("DATABASE_NAME"),
-        "USER": env("DATABASE_USER"),
-        "PASSWORD": env("DATABASE_PASSWORD"),
-        "HOST": env("DATABASE_HOST"),
-        "PORT": env("DATABASE_PORT"),
-    }
-}
+IS_LOCAL = env("IS_LOCAL", default=False)
 
+if IS_LOCAL:
+    # 로컬 환경에서는 SQLite를 사용합니다.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME':  BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    # 운영 환경에서는 PostgreSQL을 사용합니다.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': env('DATABASE_NAME'),
+            'USER': env('DATABASE_USER'),
+            'PASSWORD': env('DATABASE_PASSWORD'),
+            'HOST': env('DATABASE_HOST'),
+            'PORT': env('DATABASE_PORT'),
+        }
+    }
+
+    
 GRAPHENE = {"SCHEMA": "config.schema.schema"}
 
 # Password validation
@@ -145,7 +158,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ko-kr"
 
 TIME_ZONE = "UTC"
 
@@ -163,5 +176,3 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-AUTH_USER_MODEL = "accounts.CustomUser"
