@@ -34,6 +34,12 @@ install_initial() {
     done
 }
 
+upgrede_pip() {
+    source ./venv/Scripts/activate
+    pip install -r requirements.txt
+    echo "Pip has been upgraded."
+}
+
 install_pip() {
     source ./venv/Scripts/activate
     echo "Enter the name of the library to install:"
@@ -119,7 +125,7 @@ reinstall() {
     pip install -r requirements.txt
 }
 
-echo "Enter command (install, activate, migrate, run, create, static, reinstall, remove, add_admin, mock_data, install_pip):"
+echo "Enter command (install, activate, migrate, run, create, static, reinstall, remove, add_admin, mock_data, install_pip, upgrede_pip):"
 read command
 case $command in
     "install") install_initial ;;
@@ -133,5 +139,6 @@ case $command in
     "add_admin") add_admin ;;
     "collectstatic") collectstatic ;;
     "install_pip") install_pip ;;
+    "upgrede_pip") upgrede_pip ;;
     *) echo "Unknown command" ;;
 esac

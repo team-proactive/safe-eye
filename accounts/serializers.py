@@ -1,26 +1,20 @@
 from rest_framework import serializers
-from .models import CustomUser, Status
+from django.contrib.auth import get_user_model
 
-
-class CustomUserSerializer(serializers.ModelSerializer):
-    status = serializers.PrimaryKeyRelatedField(
-        queryset=Status.objects.all(),
-        default=lambda: Status.objects.get(name="Default"),
-    )
-
+class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
-        fields = (
-            "id",
-            "username",
-            "email",
-            "profile_picture",
-            "profile_status",
-            "profile_message",
-            "status",
-        )
-        extra_kwargs = {"password": {"write_only": True}}
+        model = get_user_model()
+        fields = ['email', 'password', 'nickname']
 
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(**validated_data)
+        user = get_user_model().objects.create_user(
+            email=validated_data['email'],
+            password=validated_data['password'],
+            nickname=validated_data['nickname']
+        )
         return user
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ['email', 'nickname']
