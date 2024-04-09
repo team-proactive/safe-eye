@@ -15,7 +15,7 @@ class CustomPageNumberPagination(PageNumberPagination):
 
 
 class TagViewSet(Custom404Mixin, viewsets.ModelViewSet):
-    queryset = Tag.objects.order_by('-id')  # 정렬 조건 추가
+    queryset = Tag.objects.order_by("-id")  # 정렬 조건 추가
     serializer_class = TagSerializer
     permission_classes = [IsAuthorOrReadOnly]
     pagination_class = CustomPageNumberPagination
@@ -40,7 +40,7 @@ class TagViewSet(Custom404Mixin, viewsets.ModelViewSet):
 
 
 class StatusViewSet(Custom404Mixin, viewsets.ModelViewSet):
-    queryset = Status.objects.order_by('-created_at')
+    queryset = Status.objects.order_by("-created_at")
     serializer_class = StatusSerializer
     permission_classes = [IsAuthorOrReadOnly]
     pagination_class = CustomPageNumberPagination
