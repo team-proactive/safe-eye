@@ -21,9 +21,15 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        # 객체에 user 필드가 없는 경우 superuser에게만 쓰기 권한 부여
+        # 객체에 user 필드가 없는 경우
         if not hasattr(obj, "user"):
+            # 수퍼유저에게만 쓰기 권한 부여
             return request.user.is_superuser
 
-        # 객체에 user 필드가 있는 경우 작성자와 superuser에게 쓰기 권한 부여
-        return obj.user == request.user or request.user.is_superuser
+        # 객체에 user 필드가 있는 경우
+        if hasattr(obj, "user"):
+            # 객체의 소유자이거나 수퍼유저인 경우에만 쓰기 권한 부여
+            return obj.user == request.user or request.user.is_superuser
+
+        # 그 외의 경우 쓰기 권한 거부
+        return False
