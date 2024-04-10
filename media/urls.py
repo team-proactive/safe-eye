@@ -7,9 +7,14 @@ router.register('files', MediaFileViewSet)
 
 urlpatterns = router.urls
 
+media_file_predict = MediaFileViewSet.as_view({
+    'post': 'predict'
+})
+
 
 urlpatterns = [
     # ...
     path('media/', include('media.urls')),
+    path('media/files/<int:pk>/predict/', media_file_predict, name='media-file-predict')
     # ...
 ]

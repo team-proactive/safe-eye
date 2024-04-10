@@ -34,3 +34,10 @@ class MediaFileTestCase(TestCase):
         }
         self.assertEqual(serializer.data, expected_data)
     
+    def test_media_file_predict_view(self):
+        # MediaFileViewSet의 predict 액션 테스트
+        response = self.client.post(f'/media/files/{self.media_file.id}/predict/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('result', response.data)
+        self.assertEqual(response.data['result'], 'prediction')
+    
