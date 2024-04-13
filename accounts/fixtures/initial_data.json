@@ -1,0 +1,16 @@
+[
+  {
+    "model": "accounts.customuser",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$260000$W8chhMJcjZjK$BC7daFk7r7/0dP4aAIS5vEuQGHvUs7qKvr4Kuq9F2fY=",
+      "last_login": null,
+      "is_superuser": false,
+      "email": "test@example.com",
+      "is_active": true,
+      "is_staff": true,
+      "nickname": "Admin User",
+      "role": "admin"
+    }
+  }
+]

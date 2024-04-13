@@ -15,6 +15,10 @@ db.sqlite3-journal
 */migrations/
 # !*/migrations/__init__.py
 
+# peacock -setting
+.vscode/settings.json
+
+
 
 # test commit
 ./example

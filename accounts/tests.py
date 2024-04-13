@@ -1,96 +1,81 @@
-# accounts > tests.py
-
-from django.test import TestCase
-from django.urls import reverse
+from rest_framework.test import APITestCase
 from rest_framework import status
-from rest_framework.test import APIClient
-from .models import CustomUser
+from django.urls import reverse
+from .models import CustomUser, UserToken
 
 
-class CustomUserTests(TestCase):
+class CustomUserViewSetTests(APITestCase):
     def setUp(self):
-        self.client = APIClient()
-        self.user_data = {
-            "email": "testuser@example.com",
-            "password": "testpassword",
-            "nickname": "Test User",
-        }
-        self.user = CustomUser.objects.create_user(**self.user_data)
+        self.superuser = CustomUser.objects.create_superuser(
+            email="superuser@example.com", password="superpassword"
+        )
+        self.admin = CustomUser.objects.create_user(
+            email="admin@example.com", password="adminpassword", role="admin"
+        )
+        self.user = CustomUser.objects.create_user(
+            email="testuser@example.com", password="testpassword"
+        )
 
-    def test_user_creation(self):
-        """
-        사용자 생성 테스트
-        """
-        self.assertEqual(CustomUser.objects.count(), 1)
-        self.assertEqual(self.user.email, self.user_data["email"])
-        self.assertEqual(self.user.nickname, self.user_data["nickname"])
-        self.assertTrue(self.user.check_password(self.user_data["password"]))
-
-    def test_user_login(self):
-        """
-        사용자 로그인 테스트
-        """
-        url = reverse("customuser-login")
+    def test_create_admin(self):
+        url = reverse("register-admin")
         data = {
-            "email": self.user_data["email"],
-            "password": self.user_data["password"],
+            "email": "newadmin@example.com",
+            "password": "newadminpassword",
+            "nickname": "newadmin",
+            "role": "admin",
         }
+        self.client.force_authenticate(user=self.superuser)
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(CustomUser.objects.count(), 4)
+        self.assertEqual(CustomUser.objects.last().email, "newadmin@example.com")
+
+    def test_register_normal_user(self):
+        token = UserToken.objects.create(user=self.admin).token
+        url = reverse("user-register")
+        data = {
+            "email": "newuser@example.com",
+            "password": "newuserpassword",
+            "nickname": "newuser",
+            "role": "user",
+            "token": token,
+        }
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(CustomUser.objects.count(), 4)
+        self.assertEqual(CustomUser.objects.last().email, "newuser@example.com")
+
+    def test_login(self):
+        url = reverse("user-login")
+        data = {"email": "testuser@example.com", "password": "testpassword"}
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)
         self.assertIn("refresh", response.data)
-        self.assertIn("user", response.data)
 
-    def test_user_update(self):
-        """
-        사용자 정보 수정 테스트
-        """
-        url = reverse("customuser-detail", args=[self.user.id])
-        updated_data = {
-            "nickname": "Updated User",
-        }
-        self.client.force_authenticate(user=self.user)
-        response = self.client.patch(url, updated_data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.user.refresh_from_db()
-        self.assertEqual(self.user.nickname, updated_data["nickname"])
+    def test_generate_token(self):
+        url = reverse("user-token-generate", kwargs={"pk": self.superuser.pk})
+        self.client.force_authenticate(user=self.superuser)
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIn("token", response.data)
 
-    def test_user_delete(self):
-        """
-        사용자 삭제 테스트
-        """
-        url = reverse("customuser-detail", args=[self.user.id])
-        self.client.force_authenticate(user=self.user)
+    def test_delete_user(self):
+        url = reverse("user-delete", kwargs={"pk": self.user.pk})
+        self.client.force_authenticate(user=self.superuser)
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(CustomUser.objects.count(), 0)
+        self.assertEqual(CustomUser.objects.count(), 2)
 
+    def test_login_check_authenticated(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse("login-check")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["status"], "success")
 
-class CustomUserCreationTests(TestCase):
-    def setUp(self):
-        self.normal_user_data = {
-            "email": "normaluser@example.com",
-            "password": "password123",
-            "nickname": "Normal User",
-        }
-        self.admin_user_data = {
-            "email": "adminuser@example.com",
-            "password": "adminpassword",
-            "nickname": "Admin User",
-        }
-
-    def test_create_normal_user(self):
-        user = CustomUser.objects.create_user(**self.normal_user_data)
-        self.assertEqual(user.email, self.normal_user_data["email"])
-        self.assertEqual(user.nickname, self.normal_user_data["nickname"])
-        self.assertTrue(user.check_password(self.normal_user_data["password"]))
-        self.assertFalse(user.is_staff)
-        self.assertFalse(user.is_superuser)
-
-    def test_create_admin_user(self):
-        user = CustomUser.objects.create_superuser(**self.admin_user_data)
-        self.assertEqual(user.email, self.admin_user_data["email"])
-        self.assertEqual(user.nickname, self.admin_user_data["nickname"])
-        self.assertTrue(user.check_password(self.admin_user_data["password"]))
-        self.assertTrue(user.is_staff)
-        self.assertTrue(user.is_superuser)
+    def test_login_check_unauthenticated(self):
+        url = reverse("login-check")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["status"], "failure")

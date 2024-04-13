@@ -86,6 +86,25 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": (Path(__file__).resolve().parent / "debug.log").as_posix(),
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}
+
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [

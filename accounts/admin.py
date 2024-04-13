@@ -4,12 +4,43 @@ from .models import CustomUser
 
 
 class CustomUserAdmin(UserAdmin):
-    list_display = (
-        "email",
-        "is_staff",
-        "is_superuser",
-    )  # 'username' 대신 실제 필드 이름 사용
-    ordering = ("email",)  # 'username' 대신 실제 필드 이름 사용
-
-
-admin.site.register(CustomUser, CustomUserAdmin)
+    model = CustomUser
+    # 필요한 필드만 명시
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "email",
+                    "password",
+                    "nickname",
+                    "role",
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                )
+            },
+        ),
+        ("Permissions", {"fields": ("user_permissions", "groups")}),
+    )
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "email",
+                    "password1",
+                    "password2",
+                    "nickname",
+                    "role",
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                ),
+            },
+        ),
+    )
+    list_display = ["email", "nickname", "is_staff", "is_active"]
+    search_fields = ("email", "nickname")
+    ordering = ("email",)
