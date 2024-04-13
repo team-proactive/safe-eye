@@ -6,6 +6,12 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ["id", "tag_type", "tag_content", "content_type", "object_id"]
+        extra_kwargs = {
+            "tag_type": {"required": False},
+            "tag_content": {"required": False},
+            "content_type": {"required": False},
+            "object_id": {"required": False},
+        }
 
 
 class StatusSerializer(serializers.ModelSerializer):
@@ -19,3 +25,8 @@ class StatusSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+        extra_kwargs = {
+            "available": {"required": False},
+            "content_type": {"required": False},
+            "object_id": {"required": False},
+        }

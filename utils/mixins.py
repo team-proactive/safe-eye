@@ -17,19 +17,13 @@ class Custom404Mixin:
 
 class IsAuthorOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        # 읽기 권한은 모두에게 허용
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        # 객체에 user 필드가 없는 경우
-        if not hasattr(obj, "user"):
-            # 수퍼유저에게만 쓰기 권한 부여
-            return request.user.is_superuser
+        if request.user.is_superuser:
+            return True
 
-        # 객체에 user 필드가 있는 경우
         if hasattr(obj, "user"):
-            # 객체의 소유자이거나 수퍼유저인 경우에만 쓰기 권한 부여
-            return obj.user == request.user or request.user.is_superuser
+            return obj.user == request.user
 
-        # 그 외의 경우 쓰기 권한 거부
         return False
