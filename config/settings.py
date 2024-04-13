@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "rest_framework",
+    "rest_framework_simplejwt",
     "drf_yasg",
     "graphene_django",
     "django_filters",
@@ -131,6 +132,17 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
+}
+
+SIMPLE_JWT = {
+    "SIGNING_KEY": env("SECRET_KEY"),
+    "ALGORITHM": "HS256",
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=15),
+    "VERIFYING_KEY": None,  # 필요한 경우 검증 키 설정
+    "AUDIENCE": None,
+    "ISSUER": None,
+    "JWK_URL": None,
+    "LEEWAY": 0,
 }
 
 # Database
