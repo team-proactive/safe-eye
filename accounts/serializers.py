@@ -93,3 +93,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         )
         user_token.delete()  # 사용된 토큰은 삭제
         return user
+
+
+class LoginCheckSerializer(serializers.Serializer):
+    status = serializers.CharField()
+    content = serializers.DictField()

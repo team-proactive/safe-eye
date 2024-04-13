@@ -36,4 +36,9 @@ urlpatterns = [
         CustomUserViewSet.as_view({"post": "generate_token"}),
         name="user-token-generate",
     ),
+    path(
+        "login-check/",
+        CustomUserViewSet.as_view({"get": "login_check"}),
+        name="login-check",
+    ),
 ]

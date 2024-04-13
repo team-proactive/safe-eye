@@ -7,6 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import CustomUser, UserToken
 from .serializers import (
     CustomUserSerializer,
+    LoginCheckSerializer,
     UserCreateSerializer,
     UserLoginSerializer,
     UserTokenSerializer,
@@ -119,3 +120,11 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             )
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=False, methods=["get"], permission_classes=[AllowAny])
+    def login_check(self, request):
+        serializer = LoginCheckSerializer(data=request.data)
+        if request.user.is_authenticated:
+            return Response({"status": "success", "content": serializer.data})
+        else:
+            return Response({"status": "failure", "content": serializer.data})
