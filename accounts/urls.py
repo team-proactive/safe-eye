@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CustomUserViewSet
+from .views import CustomUserViewSet, UserRegistrationViewSet
 
 urlpatterns = [
     path("login/", CustomUserViewSet.as_view({"post": "login"}), name="user-login"),
@@ -10,7 +10,7 @@ urlpatterns = [
     ),
     path(
         "register/",
-        CustomUserViewSet.as_view({"post": "register_normal_user"}),
+        UserRegistrationViewSet.as_view({"post": "register"}),
         name="user-register",
     ),
     path("users/", CustomUserViewSet.as_view({"get": "list"}), name="user-list"),
@@ -37,8 +37,8 @@ urlpatterns = [
         name="user-token-generate",
     ),
     path(
-        "login-check/",
-        CustomUserViewSet.as_view({"get": "login_check"}),
-        name="login-check",
+        "<int:pk>/tokens/generate/",
+        CustomUserViewSet.as_view({"post": "generate_token"}),
+        name="user-token-generate",
     ),
 ]
