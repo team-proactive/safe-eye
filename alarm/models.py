@@ -29,7 +29,7 @@ class Risk(models.Model):
 
 class Alarm(TagMixin, StatusMixin, models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(
+    admin = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="alarms"
     )
     camera_id = models.IntegerField(default=1)
@@ -42,3 +42,7 @@ class Alarm(TagMixin, StatusMixin, models.Model):
 
     def __str__(self):
         return f"{self.alarm_type.name} - {self.alarm_content[:20]}..."
+
+    def to_log_format(self):
+        camera_info = f"{self.camera_id}번카메라 에서 " if self.camera_id else ""
+        return f"[{self.alarm_type.name}] {camera_info}[{self.custom_message}] {self.created_at.strftime('%Y %m %d %H시 %M분')} [{self.risk.get_level_display()}]"
