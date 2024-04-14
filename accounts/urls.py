@@ -14,6 +14,7 @@ urlpatterns = [
         UserRegistrationViewSet.as_view({"post": "register"}),
         name="user-register",
     ),
+    path("user/", CustomUserViewSet.as_view({"get": "get_current_user"}), name="user"),
     path("users/", CustomUserViewSet.as_view({"get": "list"}), name="user-list"),
     path(
         "<int:pk>/",

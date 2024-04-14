@@ -80,9 +80,10 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             return UserCreateSerializer
         elif self.action == "login":
             return UserLoginSerializer
-
         elif self.action == "generate_token":
             return UserTokenSerializer
+        elif self.action == "get_current_user":
+            return CustomUserSerializer
         return CustomUserSerializer
 
     def get_permissions(self):
@@ -225,3 +226,12 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             )
         token = UserToken.objects.create(user=user)
         return Response({"token": token.token}, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
+    def get_current_user(self, request):
+        user = request.user
+        if user.is_authenticated:
+            serializer = self.get_serializer(user)
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
