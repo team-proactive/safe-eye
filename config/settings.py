@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "rest_framework",
+    "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "graphene_django",
     "django_filters",
@@ -54,7 +56,11 @@ INSTALLED_APPS = [
     "accounts",
     "media",
     "utils",
+
     "slowfast", 
+
+    "alarm",
+
 ]
 
 MIDDLEWARE = [
@@ -93,6 +99,25 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": (Path(__file__).resolve().parent / "debug.log").as_posix(),
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}
+
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
@@ -116,9 +141,20 @@ WSGI_APPLICATION = "config.wsgi.application"
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
+}
+
+SIMPLE_JWT = {
+    "SIGNING_KEY": env("SECRET_KEY"),
+    "ALGORITHM": "HS256",
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=15),
+    "VERIFYING_KEY": None,  # 필요한 경우 검증 키 설정
+    "AUDIENCE": None,
+    "ISSUER": None,
+    "JWK_URL": None,
+    "LEEWAY": 0,
 }
 
 # Database
@@ -129,25 +165,25 @@ IS_LOCAL = env("IS_LOCAL", default=False)
 if IS_LOCAL:
     # 로컬 환경에서는 SQLite를 사용합니다.
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME':  BASE_DIR / 'db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 else:
     # 운영 환경에서는 PostgreSQL을 사용합니다.
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': env('DATABASE_NAME'),
-            'USER': env('DATABASE_USER'),
-            'PASSWORD': env('DATABASE_PASSWORD'),
-            'HOST': env('DATABASE_HOST'),
-            'PORT': env('DATABASE_PORT'),
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env("DATABASE_NAME"),
+            "USER": env("DATABASE_USER"),
+            "PASSWORD": env("DATABASE_PASSWORD"),
+            "HOST": env("DATABASE_HOST"),
+            "PORT": env("DATABASE_PORT"),
         }
     }
 
-    
+
 GRAPHENE = {"SCHEMA": "config.schema.schema"}
 
 # Password validation
