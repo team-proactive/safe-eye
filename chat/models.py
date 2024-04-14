@@ -7,6 +7,7 @@ User = get_user_model()
 class ChatRoom(models.Model):
     name = models.CharField(max_length=255)
     users = models.ManyToManyField(User)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Message(models.Model):
