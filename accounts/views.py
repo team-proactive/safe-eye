@@ -16,9 +16,7 @@ from .serializers import (
 from .permissions import IsAdminUser
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-
-
-logger = logging.getLogger(__name__)
+from django.utils.encoding import smart_str
 
 
 class UserRegistrationViewSet(viewsets.ViewSet):
@@ -88,7 +86,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         return CustomUserSerializer
 
     def get_permissions(self):
-        if self.action in ["generate_token", "delete_user"]:
+        if self.action in ["create", "login", "logout", "refresh", "register"]:
+            return [AllowAny()]
+        elif self.action in ["generate_token", "delete_user"]:
             return [IsAdminUser()]
         return [IsAuthenticated()]
 
@@ -182,8 +182,27 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["post"], permission_classes=[IsAuthenticated])
     def logout(self, request):
         try:
-            refresh_token = request.data["refresh"]
-            token = RefreshToken(refresh_token)
+            authorization_header = request.headers.get("Authorization")
+            if not authorization_header:
+                return Response(
+                    {"error": "Authorization header is missing."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            try:
+                prefix, access_token = authorization_header.split(" ")
+                if prefix.lower() != "bearer":
+                    return Response(
+                        {"error": "Invalid token prefix."},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+            except ValueError:
+                return Response(
+                    {"error": "Invalid authorization header."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            token = RefreshToken(smart_str(access_token))
             token.blacklist()
 
             return Response(status=status.HTTP_205_RESET_CONTENT)

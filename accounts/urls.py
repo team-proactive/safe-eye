@@ -3,6 +3,7 @@ from .views import CustomUserViewSet, UserRegistrationViewSet
 
 urlpatterns = [
     path("login/", CustomUserViewSet.as_view({"post": "login"}), name="user-login"),
+    path("logout/", CustomUserViewSet.as_view({"post": "logout"}), name="user-logout"),
     path(
         "register-admin/",
         CustomUserViewSet.as_view({"post": "create"}),
