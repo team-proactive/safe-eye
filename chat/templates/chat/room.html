@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ room.name }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'chat/css/chat.css' %}">
+</head>
+<body>
+    <h1>{{ room.name }}</h1>
+    <div id="messages">
+        {% for message in messages %}
+            <div class="message">
+                <span class="sender">{{ message.sender.username }}</span>
+                <span class="content">{{ message.content }}</span>
+                <span class="timestamp">{{ message.timestamp|date:"Y-m-d H:i" }}</span>
+            </div>
+        {% empty %}
+            <div class="empty-message">메시지가 없습니다.</div>
+        {% endfor %}
+    </div>
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="메시지를 입력하세요">
+        <button type="submit">전송</button>
+    </form>
+    <script src="{% static 'chat/js/chat.js' %}"></script>
+</body>
+</html>
