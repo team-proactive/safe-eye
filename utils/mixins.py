@@ -20,10 +20,10 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        if request.user.is_superuser:
-            return True
-
-        if hasattr(obj, "user"):
-            return obj.user == request.user
+        if request.user.is_authenticated:
+            if request.user.role in ["admin", "superuser"]:
+                return obj.admin == request.user
+            else:
+                return False
 
         return False
