@@ -1,3 +1,8 @@
+"""
+이 모듈은 Django URL 패턴을 정의합니다.
+CustomUser 관련 뷰셋과 연결되는 URL 패턴이 포함되어 있습니다.
+"""
+
 from django.urls import path
 from .views import CustomUserViewSet, UserRegistrationViewSet
 
