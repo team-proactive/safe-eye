@@ -441,7 +441,7 @@ fixtures 디렉토리는 초기 데이터를 로드하기 위한 JSON 파일을 
 - content: TextField, 메시지 내용
 - timestamp: DateTimeField, 메시지 전송 시간
 
-#### 1.6.3 ChatConsumer
+#### 1.6.3 ChatConsumer 모델
 
 - WebSocket을 통한 실시간 채팅 기능을 구현하는 컨슈머
 - WebSocket 연결 수립, 해제 이벤트 처리
