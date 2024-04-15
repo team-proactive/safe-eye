@@ -1,3 +1,9 @@
+"""
+이 모듈은 Django 프로젝트의 URL 패턴을 정의합니다.
+
+루트 URL 패턴과 Django REST Framework, GraphQL, Django 관리자 페이지 등의 URL 패턴이 포함되어 있습니다.
+"""
+
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg import openapi
