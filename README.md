@@ -275,6 +275,17 @@ SafeEye 프로젝트는 [MIT 라이선스](LICENSE)를 따릅니다.
  ┃ ┣ 📜tests.py
  ┃ ┣ 📜urls.py
  ┃ ┣ 📜views.py
+ ┣ 📂chat
+ ┃ ┣ 📂__pycache__
+ ┃ ┣ 📂migrations
+ ┃ ┣ 📜__iniit__.py
+ ┃ ┣ 📜admin.py
+ ┃ ┣ 📜apps.py
+ ┃ ┣ 📜models.py
+ ┃ ┣ 📜serializers.py
+ ┃ ┣ 📜tests.py
+ ┃ ┣ 📜urls.py
+ ┃ ┣ 📜views.py
  ┣ 📜.env
  ┣ 📜.env.example
  ┣ 📜.gitignore
@@ -321,6 +332,12 @@ SafeEye 프로젝트는 [MIT 라이선스](LICENSE)를 따릅니다.
    - AI 모델을 활용하여 영상 분석을 수행하는 앱입니다.
    - CCTV 영상을 실시간으로 분석하고 이상 행동을 감지하는 기능을 담당합니다.
    - AI 모델 추론, 결과 저장, 알람 생성 등의 작업을 수행합니다.
+
+7. chat 앱:
+   - 실시간 채팅 기능을 제공하는 앱입니다.
+   - 채팅방 생성, 메시지 전송, 채팅방 참여 등의 기능을 담당합니다.
+   - WebSocket을 활용하여 실시간 양방향 통신을 구현합니다.
+   - 채팅 관련 API 엔드포인트를 제공합니다.
 
 fixtures 디렉토리는 초기 데이터를 로드하기 위한 JSON 파일을 포함합니다.
 
@@ -397,6 +414,30 @@ fixtures 디렉토리는 초기 데이터를 로드하기 위한 JSON 파일을 
 - created_at: DateTimeField, 분석 결과 생성 시간
 - updated_at: DateTimeField, 분석 결과 업데이트 시간
 - user: ForeignKey, 분석 결과와 연결된 사용자 (CustomUser 모델과 연결)
+
+### 1.6 chat 앱
+
+#### 1.6.1 ChatRoom 모델
+
+- 채팅방을 나타내는 모델
+- name: CharField, 채팅방 이름
+- users: ManyToManyField, 채팅방에 참여하는 사용자들과의 다대다 관계
+- created_at: DateTimeField, 채팅방 생성 시간
+
+#### 1.6.2 Message 모델
+
+- 채팅 메시지를 나타내는 모델
+- room: ForeignKey, 메시지가 속한 채팅방과의 외래키 관계
+- sender: ForeignKey, 메시지를 보낸 사용자와의 외래키 관계
+- content: TextField, 메시지 내용
+- timestamp: DateTimeField, 메시지 전송 시간
+
+#### 1.6.3 ChatConsumer
+
+- WebSocket을 통한 실시간 채팅 기능을 구현하는 컨슈머
+- WebSocket 연결 수립, 해제 이벤트 처리
+- 채팅방 입장, 퇴장 이벤트 처리
+- 메시지 수신 및 전송 기능 구현
 
 ## 2. ERD
 
