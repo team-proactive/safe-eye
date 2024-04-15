@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "graphene_django",
     "django_filters",
     "django_extensions",
+    "chat",
     "notice",
     "accounts",
     "media",
