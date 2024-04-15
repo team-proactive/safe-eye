@@ -57,9 +57,6 @@ INSTALLED_APPS = [
     "accounts",
     "media",
     "utils",
-
-    "slowfast", 
-
     "alarm",
 
 ]
