@@ -1,4 +1,8 @@
 # accounts/views.py
+"""
+이 모듈은 Django REST Framework 뷰셋을 정의합니다.
+CustomUser 모델과 관련된 뷰셋이 포함되어 있습니다.
+"""
 import logging
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -20,6 +24,10 @@ from django.utils.encoding import smart_str
 
 
 class UserRegistrationViewSet(viewsets.ViewSet):
+    """
+    사용자 등록을 처리하는 뷰셋입니다.
+    """
+
     permission_classes = [AllowAny]
 
     @swagger_auto_schema(
@@ -42,6 +50,9 @@ class UserRegistrationViewSet(viewsets.ViewSet):
     )
     @action(detail=False, methods=["post"], url_path="register")
     def register(self, request):
+        """
+        사용자 등록을 처리하는 뷰입니다.
+        """
         token = request.data.get("token")
         if not token:
             return Response(
@@ -73,9 +84,16 @@ class UserRegistrationViewSet(viewsets.ViewSet):
 
 
 class CustomUserViewSet(viewsets.ModelViewSet):
+    """
+    CustomUser 모델과 관련된 뷰셋입니다.
+    """
+
     queryset = CustomUser.objects.all()
 
     def get_serializer_class(self):
+        """
+        요청 액션에 따라 적절한 시리얼라이저를 반환합니다.
+        """
         if self.action == "create":
             return UserCreateSerializer
         elif self.action == "login":
@@ -87,6 +105,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         return CustomUserSerializer
 
     def get_permissions(self):
+        """
+        요청 액션에 따라 적절한 권한을 반환합니다.
+        """
         if self.action in ["create", "login", "logout", "refresh", "register"]:
             return [AllowAny()]
         elif self.action in ["generate_token", "delete_user"]:
@@ -112,6 +133,10 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     )
     @action(detail=False, methods=["post"], permission_classes=[AllowAny])
     def login(self, request):
+        """
+        사용자 로그인을 처리하는 뷰입니다.
+        """
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
@@ -164,6 +189,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["post"], permission_classes=[AllowAny])
     def refresh(self, request):
+        """
+        JWT 토큰을 갱신합니다.
+        """
         refresh_token = request.data.get("refresh")
         if refresh_token is None:
             return Response(
@@ -182,6 +210,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["post"], permission_classes=[IsAuthenticated])
     def logout(self, request):
+        """
+        사용자를 로그아웃 시키고 토큰을 무효화합니다.
+        """
         try:
             authorization_header = request.headers.get("Authorization")
             if not authorization_header:
@@ -229,6 +260,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
     def get_current_user(self, request):
+        """
+        현재 인증된 사용자의 정보를 반환합니다.
+        """
         user = request.user
         if user.is_authenticated:
             serializer = self.get_serializer(user)

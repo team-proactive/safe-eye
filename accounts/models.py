@@ -1,4 +1,8 @@
 # accounts/models.py
+"""
+이 모듈은 Django 모델을 정의합니다.
+CustomUser 모델과 UserToken 모델이 포함되어 있습니다.
+"""
 
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -13,7 +17,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class CustomUserManager(BaseUserManager):
+    """
+    CustomUser 모델에 대한 사용자 관리 클래스입니다.
+    """
+
     def _create_user(self, email, password, nickname, role, **extra_fields):
+        """
+        새로운 CustomUser 인스턴스를 생성합니다.
+        """
         if not email:
             raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
@@ -23,15 +34,25 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password, nickname, role="user", **extra_fields):
+        """
+        새로운 일반 사용자를 생성합니다.
+        """
         return self._create_user(email, password, nickname, role, **extra_fields)
 
     def create_superuser(self, email, password, nickname, **extra_fields):
+        """
+        새로운 슈퍼 사용자를 생성합니다.
+        """
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         return self._create_user(email, password, nickname, "superuser", **extra_fields)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    """
+    사용자 정보를 저장하는 모델입니다.
+    """
+
     ROLE_CHOICES = (
         ("user", "User"),
         ("admin", "Admin"),
@@ -63,6 +84,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class UserToken(models.Model):
+    """
+    사용자 토큰 정보를 저장하는 모델입니다.
+    """
+
     user = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, null=True, blank=True
     )
@@ -70,6 +95,9 @@ class UserToken(models.Model):
     is_used = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
+        """
+        토큰을 저장할 때 토큰 값을 생성합니다.
+        """
         if not self.token:
             refresh = RefreshToken.for_user(self.user)
             self.token = str(refresh)
