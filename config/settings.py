@@ -1,5 +1,6 @@
 import os
 import sys
+
 """
 Django settings for config project.
 
@@ -14,8 +15,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))   
-sys.path.append(os.path.join(PROJECT_ROOT, 'slowfast'))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(PROJECT_ROOT, "slowfast"))
 
 import datetime
 from pathlib import Path
@@ -57,11 +58,8 @@ INSTALLED_APPS = [
     "accounts",
     "media",
     "utils",
-
-    "slowfast", 
-
+    "slowfast",
     "alarm",
-
 ]
 
 MIDDLEWARE = [
