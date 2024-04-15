@@ -3,6 +3,15 @@ from .models import MediaFile
 from .serializers import MediaFileSerializer
 from rest_framework.test import APIClient
 from rest_framework import status
+from django.test import TestCase
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase
+from .models import MediaFile
+from .serializers import MediaFileSerializer
+import os
+import shutil
+import tempfile
 
 class MediaFileTestCase(TestCase):
     def setUp(self):
@@ -40,4 +49,39 @@ class MediaFileTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('result', response.data)
         self.assertEqual(response.data['result'], 'prediction')
+
+class MediaFileViewSetTestCase(APITestCase):
+    def setUp(self):
+        self.temp_dir = tempfile.mkdtemp()
+        self.video_file = os.path.join(self.temp_dir, 'test_video.mp4')
+        with open(self.video_file, 'wb') as f:
+            f.write(b'dummy video data')
+
+        self.media_file = MediaFile.objects.create(file=self.video_file)
+
+    def tearDown(self):
+        shutil.rmtree(self.temp_dir)
+
+    def test_predict_success(self):
+        url = reverse('media-file-predict', args=[self.media_file.pk])
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('result', response.data)
+
+    def test_predict_invalid_file(self):
+        invalid_file = MediaFile.objects.create(file='invalid_file.txt')
+        url = reverse('media-file-predict', args=[invalid_file.pk])
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_predict_response_format(self):
+        url = reverse('media-file-predict', args=[self.media_file.pk])
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('id', response.data)
+        self.assertIn('file', response.data)
+        self.assertIn('result', response.data)
+        self.assertIsInstance(response.data['result'], dict)
+        self.assertIn('class_names', response.data['result'])
+        self.assertIn('probabilities', response.data['result'])
     

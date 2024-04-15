@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Alarm, Risk, AlarmType
 from utils.serializers import TagSerializer, StatusSerializer
-from utils.models import Tag, Status
 
 
 class RiskSerializer(serializers.ModelSerializer):
@@ -15,18 +14,29 @@ class AlarmTypeSerializer(serializers.ModelSerializer):
         model = AlarmType
         fields = ["id", "code", "name"]
 
+    def validate_code(self, value):
+        if len(value) > 2:
+            raise serializers.ValidationError("code는 2자 이하여야 합니다.")
+        if AlarmType.objects.filter(code=value).exists():
+            raise serializers.ValidationError("이미 존재하는 code입니다.")
+        return value
+
+    def validate_name(self, value):
+        if len(value) > 20:
+            raise serializers.ValidationError("name은 20자 이하여야 합니다.")
+        return value
+
 
 class AlarmSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, required=False)
     status = StatusSerializer(many=True, required=False)
-    alarm_type = AlarmTypeSerializer()
-    risk = RiskSerializer()
+    log_format = serializers.ReadOnlyField(source="to_log_format")
 
     class Meta:
         model = Alarm
         fields = [
             "id",
-            "user",
+            "admin",
             "camera_id",
             "alarm_type",
             "alarm_content",
@@ -36,44 +46,5 @@ class AlarmSerializer(serializers.ModelSerializer):
             "updated_at",
             "tags",
             "status",
+            "log_format",
         ]
-
-    def create(self, validated_data):
-        tags_data = validated_data.pop("tags", [])
-        status_data = validated_data.pop("status", [])
-        alarm = Alarm.objects.create(**validated_data)
-
-        for tag_data in tags_data:
-            Tag.objects.create(content_object=alarm, **tag_data)
-        for status_data_item in status_data:
-            Status.objects.create(content_object=alarm, **status_data_item)
-
-        return alarm
-
-    def update(self, instance, validated_data):
-        tags_data = validated_data.pop("tags", [])
-        status_data = validated_data.pop("status", [])
-
-        instance = super().update(instance, validated_data)
-
-        instance.tags.all().delete()
-        instance.status.all().delete()
-
-        for tag_data in tags_data:
-            Tag.objects.create(content_object=instance, **tag_data)
-        for status_data_item in status_data:
-            Status.objects.create(content_object=instance, **status_data_item)
-
-        return instance
-
-    def validate(self, data):
-        # 필수 필드 유효성 검사
-        if "alarm_type" not in data:
-            raise serializers.ValidationError("alarm_type is required.")
-        if "alarm_content" not in data:
-            raise serializers.ValidationError("alarm_content is required.")
-        if "risk" not in data:
-            raise serializers.ValidationError("risk is required.")
-        if "user" not in data:
-            raise serializers.ValidationError("user is required.")
-        return data

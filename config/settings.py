@@ -1,3 +1,5 @@
+import os
+import sys
 """
 Django settings for config project.
 
@@ -9,6 +11,11 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))   
+sys.path.append(os.path.join(PROJECT_ROOT, 'slowfast'))
 
 import datetime
 from pathlib import Path
@@ -39,6 +46,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "rest_framework",
+    "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "graphene_django",
     "django_filters",
@@ -48,7 +57,11 @@ INSTALLED_APPS = [
     "accounts",
     "media",
     "utils",
+
+    "slowfast", 
+
     "alarm",
+
 ]
 
 MIDDLEWARE = [
@@ -132,6 +145,17 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
+}
+
+SIMPLE_JWT = {
+    "SIGNING_KEY": env("SECRET_KEY"),
+    "ALGORITHM": "HS256",
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=15),
+    "VERIFYING_KEY": None,  # 필요한 경우 검증 키 설정
+    "AUDIENCE": None,
+    "ISSUER": None,
+    "JWK_URL": None,
+    "LEEWAY": 0,
 }
 
 # Database
