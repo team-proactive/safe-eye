@@ -1,13 +1,14 @@
-from rest_framework_nested import routers
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from .views import ChatRoomViewSet, MessageViewSet
 
-router = routers.SimpleRouter()
-router.register(r"rooms", ChatRoomViewSet)
+router = DefaultRouter()
+router.register(r"rooms", ChatRoomViewSet, basename="chatroom")
 
-messages_router = routers.NestedSimpleRouter(router, r"rooms", lookup="room")
-messages_router.register(r"messages", MessageViewSet, basename="room-messages")
+message_router = DefaultRouter()
+message_router.register(r"messages", MessageViewSet, basename="message")
 
 urlpatterns = [
-    *router.urls,
-    *messages_router.urls,
+    path("", include(router.urls)),
+    path("rooms/<int:room_pk>/", include(message_router.urls)),
 ]
