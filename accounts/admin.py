@@ -1,4 +1,9 @@
 # accounts/admin.py
+"""
+이 모듈은 Django 관리자 페이지 설정을 정의합니다.
+CustomUser 모델과 UserToken 모델에 대한 관리자 인터페이스가 포함되어 있습니다.
+"""
+
 import secrets
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -7,6 +12,10 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
 class CustomUserInline(admin.StackedInline):
+    """
+    CustomUser 모델에 대한 인라인 편집기입니다.
+    """
+
     model = CustomUser
     can_delete = False
     verbose_name_plural = "Subordinate Users"
@@ -22,6 +31,10 @@ class CustomUserInline(admin.StackedInline):
 
 
 class UserTokenAdmin(admin.ModelAdmin):
+    """
+    UserToken 모델에 대한 관리자 인터페이스입니다.
+    """
+
     list_display = ["token", "user", "is_used"]
     fields = ["token", "user", "is_used"]
     readonly_fields = ["token", "user"]
@@ -34,6 +47,10 @@ class UserTokenAdmin(admin.ModelAdmin):
 
 
 class CustomUserAdmin(UserAdmin):
+    """
+    CustomUser 모델에 대한 관리자 인터페이스입니다.
+    """
+
     model = CustomUser
     fieldsets = (
         (
