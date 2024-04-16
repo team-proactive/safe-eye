@@ -1,3 +1,8 @@
+"""
+Chat 앱의 테스트 모듈입니다.
+채팅방 생성, 메시지 전송 등의 기능을 테스트합니다.
+"""
+
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
@@ -8,6 +13,10 @@ User = get_user_model()
 
 
 class ChatRoomTests(APITestCase):
+    """
+    채팅방 관련 테스트를 정의하는 클래스입니다.
+    """
+
     def setUp(self):
         self.user = User.objects.create_user(username="testuser", password="testpass")
         self.client.force_authenticate(user=self.user)
@@ -29,6 +38,10 @@ class ChatRoomTests(APITestCase):
 
 
 class MessageTestCase(TestCase):
+    """
+    메시지 관련 테스트를 정의하는 클래스입니다.
+    """
+
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create_user(

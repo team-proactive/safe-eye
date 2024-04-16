@@ -6,8 +6,11 @@ from rest_framework.decorators import action
 from .models import MediaFile
 from .serializers import MediaFileSerializer
 
+
 import os
 from django.conf import settings
+
+
 
 class MediaFileViewSet(viewsets.ModelViewSet):
     queryset = MediaFile.objects.all()
@@ -16,6 +19,7 @@ class MediaFileViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def predict(self, request, pk=None):
         media_file = self.get_object()
+
 
         # PySlowFast API URL을 환경 변수에서 가져옴
         api_url = settings.PYSLOWFAST_API_URL
@@ -38,6 +42,18 @@ class MediaFileViewSet(viewsets.ModelViewSet):
             media_file.save()
 
             return Response(media_file.result, status=status.HTTP_200_OK)
+
+        # PySlowFast 모델 API 호출
+        api_url = 'https://your-pyslowfast-api.com/predict'
+        payload = {'video_url': media_file.video_url}
+        response = requests.post(api_url, json=payload)
+
+        if response.status_code == 200:
+            result = response.json()
+            media_file.result = result
+            media_file.save()
+            return Response(result, status=status.HTTP_200_OK)
+
         else:
             return Response({'error': 'Failed to predict'}, status=response.status_code)
 

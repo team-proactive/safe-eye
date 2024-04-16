@@ -1,3 +1,7 @@
+"""
+Chat 앱의 URL 패턴을 정의하는 모듈입니다.
+"""
+
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import ChatRoomViewSet, MessageViewSet
