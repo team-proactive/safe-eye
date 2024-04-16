@@ -33,9 +33,6 @@ urlpatterns = [
                 path("utils/", include("utils.urls")),
                 path("alarm/", include("alarm.urls")),
                 path("chat/", include("chat.urls")),
-                # 추가적인 앱의 URL 패턴을 여기에 포함시킵니다.
-                # 예: path("blog/", include("blog.urls")),
-                #    path("users/", include("users.urls")),
             ]
         ),
     ),
