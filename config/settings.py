@@ -218,29 +218,29 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = "static/"
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 # AWS 설정
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_REGION_NAME = env('AWS_S3_REGION_NAME')  # 예: 'ap-northeast-2'
+AWS_STORAGE_BUCKET_NAME = 'safe-eye-sample-video'
+AWS_S3_REGION_NAME = 'ap-northeast-2'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
-
-# Static files 설정
-AWS_STATIC_LOCATION = 'static'
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STATIC_LOCATION}/'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Media files 설정
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
+
+'''
+추가적인 주의사항
+.env 파일 관리: 환경 변수를 사용하여 AWS 인증 정보와 같은 중요한 정보를 안전하게 관리합니다. .env 파일은 절대 공개 저장소에 업로드하지 않도록 주의해야 합니다.
+CORS 설정: S3 버킷의 CORS 설정을 확인하고, 필요한 경우 웹 애플리케이션에서 S3에 호스티드된 미디어에 접근할 수 있도록 적절하게 설정합니다.
+'''
+
+# settings.py
+import os
+import environ
+
+env = environ.Env()
+
+# PySlowFast API URL 환경 변수
+PYSLOWFAST_API_URL = env('PYSLOWFAST_API_URL')
