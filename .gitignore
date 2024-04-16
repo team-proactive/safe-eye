@@ -18,7 +18,8 @@ db.sqlite3-journal
 # peacock -setting
 .vscode/settings.json
 
-
+# css for swagger
+staticfiles/
 
 # test commit
 ./example
