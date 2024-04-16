@@ -14,6 +14,40 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 
+"""
+이 모듈은 Django 프로젝트의 설정을 정의합니다.
+
+주요 설정 항목:
+
+- BASE_DIR: 프로젝트 루트 디렉토리 경로
+- DEBUG: 디버그 모드 활성화 여부
+- SECRET_KEY: Django 프로젝트의 비밀 키
+- ALLOWED_HOSTS: 허용된 호스트 목록
+- INSTALLED_APPS: 설치된 Django 앱 목록
+- MIDDLEWARE: 미들웨어 클래스 목록
+- CORS_ALLOWED_ORIGINS: 허용된 출처(origin) 목록
+- LOGGING: 로깅 설정
+- ROOT_URLCONF: 프로젝트의 최상위 URL 설정 파일
+- TEMPLATES: 템플릿 엔진 설정
+- WSGI_APPLICATION: WSGI 애플리케이션 경로
+- AUTH_USER_MODEL: 사용자 모델 설정
+- REST_FRAMEWORK: Django REST Framework 설정
+- SIMPLE_JWT: JSON Web Token 설정
+- DATABASES: 데이터베이스 설정
+- GRAPHENE: GraphQL 설정
+- AUTH_PASSWORD_VALIDATORS: 비밀번호 유효성 검사기 설정
+- LANGUAGE_CODE: 언어 코드 설정
+- TIME_ZONE: 시간대 설정
+- USE_I18N: 국제화 여부 설정
+- USE_TZ: 시간대 활성화 여부 설정
+- STATIC_URL: 정적 파일 URL 설정
+- DEFAULT_AUTO_FIELD: 기본 자동 필드 설정
+- AWS 설정: AWS 관련 설정 (액세스 키, 버킷 이름, 리전 등)
+- AWS Static files 설정
+- AWS Media files 설정
+"""
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
